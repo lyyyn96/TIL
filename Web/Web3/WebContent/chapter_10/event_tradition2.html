@@ -1,0 +1,24 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <title>Event Basic</title>
+    <script>
+	window.onload=function (){	
+		document.getElementById("btn").onclick=function(event){
+			alert(typeof(event)); 
+			document.write(event.target.id);
+                            };
+		document.getElementById("btn2").onclick=function(){
+			this.textContent="******";
+			this.style.backgroundColor="gray";
+			document.querySelector('div').innerHTML="<img src='img/newyork.jpg'>";
+                            };
+	};
+    </script>
+</head>
+<body>
+    <button id="btn">버튼</button>
+    <button id="btn2">버튼</button>
+    <div></div>
+</body>
+</html>
