@@ -1,0 +1,24 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <title>jQuery Basic</title>
+    <script src="http://code.jquery.com/jquery-3.4.1.js"></script>
+    <script>
+        // 이벤트를 연결합니다.
+        $(document).ready(function () {
+            // 스타일 속성을 변경합니다.
+            $('#there').css('color', 'red');
+            $('#there').css('background', 'black');
+            $('#here').css('color', 'white');
+            $('#here').css('background', 'gray');
+            $('p').css('color', 'orange');
+            $('p').css('background', 'blue');
+        });
+    </script>
+</head>
+<body>
+    <h1 id="there">Header</h1>
+    <h1 id="here">Header</h1>
+    <p>Header</p>
+</body>
+</html>
