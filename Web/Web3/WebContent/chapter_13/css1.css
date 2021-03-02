@@ -1,0 +1,12 @@
+* {
+	margin: 0;
+	padding: 0;
+	font-family: "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+}
+
+/* a태그 밑줄 없애기 */
+a { text-decoration: none; }
+/*이미지들의 border 없애기*/
+img { border: 0; }
+/* list-style 없애기 */
+li { list-style: none; }
