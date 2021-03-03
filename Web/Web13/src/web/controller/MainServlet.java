@@ -3,6 +3,7 @@ package web.controller;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.Enumeration;
+import java.util.List;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -10,9 +11,26 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import web.model.MemberDAO;
+import web.util.Member;
+import web.util.MyException;
+
 @WebServlet("/main")
 public class MainServlet extends HttpServlet {
 
+	MemberDAO mDao;
+
+	@Override
+	public void init() throws ServletException {
+		super.init();
+
+		try {
+			mDao = new MemberDAO();
+		} catch (MyException e) {
+			System.out.println(e.getMessage());
+		}
+	}
+	
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		process(request, response);
 	}
@@ -27,33 +45,62 @@ public class MainServlet extends HttpServlet {
 		if(sign==null) {
 			return ;
 		}else if(sign.equals("login")) {
+			//로그인 처리
 			String id = request.getParameter("id");
 			String pw = request.getParameter("pw");
+			response.setContentType("text/html;charset=utf-8");
+			
 			PrintWriter out = response.getWriter();
-			out.write(id+":"+pw);
+			try {
+				String name = mDao.login(id,pw);
+
+				if(name!=null) {
+					//login ok
+					out.write(name+"님 환영합니다.");
+				}else {
+					//login fail
+					out.write("다시 로그인 해주세요.<br><a href='login.html'>다시 로그인 하기</a>");
+				}
+			} catch (MyException e) {
+				//login fail
+				out.write(e.getMessage());
+			}
+		
 		}else if(sign.equals("memberInsert")) {
+			//회원 가입 처리
+			response.setContentType("text/html;charset=utf-8");
+			PrintWriter out = response.getWriter();
+			
 			String id = request.getParameter("id");
 			String pw = request.getParameter("pw");
 			String name = request.getParameter("name");
 			String[] all_subject = request.getParameterValues("subject");
-			PrintWriter out = response.getWriter();
-			out.write(id+":"+pw+":"+name+"<br>");
-			for(String s:all_subject) {
+			
+			/*for(String s:all_subject) {
 				//"\t"은 불가하고 "&nbsp"가 띄어쓰기임
 				out.write(s+"&nbsp;");
+			}*/
+			
+			Member m = new Member(id, pw, name, all_subject);
+			try {
+				mDao.memberInsert(m);
+				out.write("회원가입 되셨습니다.");
+			} catch (MyException e) {
+				out.write(e.getMessage());
 			}
-		}else if(sign.equals("memberInsert2")) {
-			Enumeration totalNames = request.getParameterNames();
-			while(totalNames.hasMoreElements()) {
-				String name = (String)totalNames.nextElement();
-				String[] values = request.getParameterValues(name);
-				//MIME-TYPE 설정
+		}else if(sign.equals("listMembers")) {
+			//모든 회원 보기 처리
+			try {
+				List<Member> list = mDao.listMembers();
+				//ok
 				response.setContentType("text/html;charset=utf-8");
 				PrintWriter out = response.getWriter();
-				for(String value:values) {
-					//values출력하면 주소 값이 나옴
-					out.append(name+":"+value+"<br>");
+				for(Member m:list) {
+					out.append(m.getId()+": "+m.getName()+"<br>");
 				}
+			} catch (MyException e) {
+				//fail
+				e.printStackTrace();
 			}
 		}
 	}
