@@ -1,14 +1,17 @@
 package web.controller;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import web.model.MemberDAO;
 import web.util.Member;
@@ -42,6 +45,17 @@ public class MainServlet extends HttpServlet {
 				String pw = request.getParameter("pw");
 				String name = mDao.login(id,pw);
 				if(name!=null) {
+					//세션 설정
+					HttpSession session = request.getSession(true);
+					session.setAttribute("login_name", name);
+					
+					/*
+					//쿠키 설정
+					Cookie c = new Cookie("login_name", name);
+					c.setMaxAge(60*60); //1시간짜리 쿠키
+					response.addCookie(c);
+					*/
+					
 					RequestDispatcher disp = request.getRequestDispatcher("login_ok.jsp");
 					request.setAttribute("name", name);
 					disp.forward(request, response);
@@ -69,6 +83,33 @@ public class MainServlet extends HttpServlet {
 				mDao.memberDelete(id);
 				RequestDispatcher disp = request.getRequestDispatcher("memberDelete_ok.jsp");
 				disp.forward(request, response);
+			}else if(key.equalsIgnoreCase("basketInsert")) {
+				//장바구니에 상품 넣기 처리
+				//request로 부터 로그인을 했을 때만 session을 줌
+				HttpSession session = request.getSession(false);
+				if(session==null) {
+					RequestDispatcher disp = request.getRequestDispatcher("login.jsp");
+					disp.forward(request, response);
+				}else {
+					String name = (String)session.getAttribute("login_name");
+					if(name==null) {
+						RequestDispatcher disp = request.getRequestDispatcher("login.jsp");
+						disp.forward(request, response);
+					}else {
+						//세션도 있고 name도 있는 로그인 정상 상태
+						//냉장고, TV, 세탁기가 모두 product면 안되므로
+						//basket의 이름, 주소의 값을 주어 ArrayList를 만듦
+						String product = request.getParameter("product");
+						ArrayList<String> list = (ArrayList<String>)session.getAttribute("basket");
+						if(list==null) {
+							list = new ArrayList<String>();
+							session.setAttribute("basket", list); //최초 장바구니 세팅
+						}
+						list.add(product);
+						RequestDispatcher disp = request.getRequestDispatcher("basketInsert_ok.jsp");
+						disp.forward(request, response);
+					}
+				}
 			}
 		}catch(MyException e) {
 			RequestDispatcher disp = request.getRequestDispatcher("error.jsp");
@@ -85,3 +126,5 @@ public class MainServlet extends HttpServlet {
 	}
 
 }
+
+
