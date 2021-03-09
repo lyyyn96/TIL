@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN//EN"
+        "http://www.springframework.org/dtd/spring-beans-2.0.dtd">
+
+<beans>
+<!-- bean definitions here -->
+	<!-- default 생성자 실행 -->
+	<bean id="person1" class="my.model.PersonImpl">
+		<!-- setName 메서드 실행 -->
+		<property name="name">
+			<value>최혜린</value>
+		</property>
+	</bean>
+	
+	<bean id="person2" class="my.model.PersonImpl">
+		<constructor-arg value="이순신"></constructor-arg>
+	</bean>
+	
+	<bean id="person3" class="my.model.PersonImpl">
+		<constructor-arg value="23"></constructor-arg>
+		<constructor-arg value="손흥민"></constructor-arg>
+	</bean>
+	
+	<bean id="person4" class="my.model.PersonImpl">
+		<constructor-arg value="50"></constructor-arg>
+		<constructor-arg value="이영애"></constructor-arg>
+	</bean>
+</beans>
