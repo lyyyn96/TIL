@@ -13,18 +13,20 @@ import javax.servlet.http.HttpServletResponse;
 import org.json.simple.JSONObject;
 import org.json.simple.JSONValue;
 
+import web.dao.DAO;
 import web.dao.MemberDAO;
 import web.util.MyException;
 
 @WebServlet("/main")
 public class MainServlet extends HttpServlet {
 	
-	MemberDAO mdao;
+	DAO mdao;
 	
 	@Override
 	public void init() throws ServletException {
 		try {
-			mdao = new MemberDAO();
+			//mdao = new MemberDAO();
+			mdao=
 		} catch (MyException e) {
 			System.out.println(e.getMessage());
 		}
