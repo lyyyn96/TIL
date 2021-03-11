@@ -20,11 +20,11 @@
 	</select>
 	
 	<select id="selectMemberById" resultMap="memResult" parameterType="String" >
-      <![CDATA[select * from member where memid=#{id}]]>
+		<![CDATA[select * from member where memid=#{id}]]>
 	 </select>
 	
 	<select id="selectMemberByPw" resultMap="memResult" parameterType="String" >
-      <![CDATA[select * from member where pw=#{pw}]]>
+		<![CDATA[select * from member where pw=#{pw}]]>
     </select>
 	
 	<insert id="memberInsert" parameterType="memberVO">
@@ -33,7 +33,11 @@
 	</insert>
 	
 	<update id="updateMember" parameterType="memberVO">
-     <![CDATA[update member set pw=#{pw}, name=#{name} where id=#{id}]]>      
-   </update>
+		<![CDATA[update member set pw=#{pw}, memname=#{name} where memid=#{id}]]>      
+	</update>
+   
+	<delete id="deleteMember" parameterType="String">
+		<![CDATA[delete from member where memid=#{id}]]>
+	</delete>
    
 </mapper>

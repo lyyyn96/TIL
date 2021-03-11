@@ -62,7 +62,13 @@ public class MemberDAO {
 	
 	public void updateMember(MemberVO m) {
 		SqlSession session = sqlMapper.openSession();
-		session.insert("mapper.member.updateMember", m);
+		session.update("mapper.member.updateMember", m);
+		session.commit(); // 수동 커밋이므로 커밋을 해줘야 DB에 들어감
+	}
+	
+	public void deleteMember(String id) { // parameterType이 String이라 parameter를 String으로 받음
+		SqlSession session = sqlMapper.openSession();
+		session.delete("mapper.member.deleteMember", id);
 		session.commit(); // 수동 커밋이므로 커밋을 해줘야 DB에 들어감
 	}
 	
