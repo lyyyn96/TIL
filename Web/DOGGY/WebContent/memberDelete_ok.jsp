@@ -5,9 +5,8 @@
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
-
 </head>
 <body>
-	${name }님 환영합니다.<br>
+	회원 삭제 되었습니다.<br>
 </body>
 </html>

@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+    <head>
+    	<meta charset="utf-8">
+        <title>회원 탈퇴</title>
+        <link rel="stylesheet" href="memberDelete.css">
+    </head>
+    <body>
+        <div class="wrap">
+            <!-- <div class="form-wrap"> -->
+                <!-- <div class="button-wrap">
+                    <div id="btn"></div> -->
+                    <!-- <button type="button" class="togglebtn" onclick="memberDelete()"> -->
+               <!-- </div> -->
+                <form id="mdelete" action="main" class="input-group" method="post">
+                <input type="hidden" name="sign" value="memberDelete">
+                <h3 class="md" style="text-align:center" height="200px;">회원탈퇴</h3>
+                    <input type="text" name="id" class="input-field" placeholder="ID" required>
+                    <input type="password" name="pw" class="input-field" placeholder="PW" required>
+              
+                    <input type="submit" class="submitt" value="입력">
+                </form>
+            <!-- </div> -->
+        </div>
+        <script>
+            var x = document.getElementById("mdelete");
+            var y = document.getElementById("register");
+            var z = document.getElementById("btn");
+            
+            
+            function mdelete(){
+                x.style.left = "50px";
+                y.style.left = "450px";
+                z.style.left = "0";
+            }
+
+            function register(){
+                x.style.left = "-400px";
+                y.style.left = "50px";
+                z.style.left = "110px";
+            }
+        </script>
+    </body>
+</html> 

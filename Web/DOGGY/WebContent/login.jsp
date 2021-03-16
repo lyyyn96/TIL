@@ -7,6 +7,8 @@
 <title>Insert title here</title>
 </head>
 <body>
-	<a href="#" onclick="window.open('login.html', '_blank', 'toolbar=yes,scrollbars=yes,resizable=yes,top=50,left=500,width=400,height=400');">로그인부터 해주세요.</a>
+	<a href="#" onclick="window.open('login.html', '_blank', 'toolbar=yes,scrollbars=yes,resizable=yes,top=50,left=500,width=400,height=400');">
+		로그인부터 해주세요.</a><br>
+	<a href="index.html">홈으로 가기</a>
 </body>
 </html>

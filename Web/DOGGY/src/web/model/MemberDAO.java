@@ -7,7 +7,7 @@ import java.util.List;
 import javax.naming.*;
 import javax.sql.DataSource;
 
-import web.util.Member;
+import web.util.MemberVO;
 import web.util.MyException;
 
 public class MemberDAO {
@@ -53,8 +53,8 @@ public class MemberDAO {
 		}
 	}// end login
 
-	public List<Member> memberList() throws MyException {
-		List<Member> list = new ArrayList<Member>();
+	public List<MemberVO> memberList() throws MyException {
+		List<MemberVO> list = new ArrayList<MemberVO>();
 		Connection con = null;
 		PreparedStatement stmt = null;
 		ResultSet rs = null;
@@ -68,7 +68,7 @@ public class MemberDAO {
 				String pw = rs.getString("pw");
 				String name = rs.getString("memname");
 				
-				Member m = new Member(id, pw, name);
+				MemberVO m = new MemberVO(id, pw, name);
 				list.add(m);
 			}
 			return list;
@@ -86,7 +86,7 @@ public class MemberDAO {
 		}
 	}
 
-	public void memberInsert(Member m) throws MyException {
+	public void memberInsert(MemberVO m) throws MyException {
 		Connection con = null;
 		PreparedStatement stmt = null;
 		
@@ -111,14 +111,16 @@ public class MemberDAO {
 		}
 	}
 
-	public void memberDelete(String id) throws MyException {
+	public void memberDelete(String id, String pw) throws MyException {
 		Connection con = null;
 		PreparedStatement stmt = null;
 		
 		try {
 			con = dbcp.getConnection();
-			stmt = con.prepareStatement("delete from member where memid=?");
+			stmt = con.prepareStatement("delete from member where memid=? and pw=?");
 			stmt.setString(1, id);
+			stmt.setString(2, pw);
+
 			stmt.executeUpdate();
 			
 		}catch(SQLException e) {

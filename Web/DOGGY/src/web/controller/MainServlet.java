@@ -1,6 +1,8 @@
 package web.controller;
 
+import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -13,8 +15,11 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import org.json.simple.JSONObject;
+import org.json.simple.JSONValue;
+
 import web.model.MemberDAO;
-import web.util.Member;
+import web.util.MemberVO;
 import web.util.MyException;
 
 @WebServlet("/main")
@@ -57,7 +62,7 @@ public class MainServlet extends HttpServlet {
 					disp.forward(request, response);
 				}
 			}else if(sign.equals("memberList")) {
-				List<Member> list = mDao.memberList();
+				List<MemberVO> list = mDao.memberList();
 				RequestDispatcher disp = request.getRequestDispatcher("memberList_ok.jsp");
 				request.setAttribute("list", list);
 				disp.forward(request, response);
@@ -67,14 +72,16 @@ public class MainServlet extends HttpServlet {
 				String name = request.getParameter("name");
 				
 				System.out.println(id+":"+pw+":"+name);
-				Member m = new Member(id, pw, name);
+				MemberVO m = new MemberVO(id, pw, name);
 				mDao.memberInsert(m);
+				
 				RequestDispatcher disp = request.getRequestDispatcher("memberInsert_ok.jsp");
 				disp.forward(request, response);
 			}else if(sign.equals("memberDelete")) {
 				String id = request.getParameter("id");
+				String pw = request.getParameter("pw");
 				
-				mDao.memberDelete(id);
+				mDao.memberDelete(id, pw);
 				RequestDispatcher disp = request.getRequestDispatcher("memberDelete_ok.jsp");
 				disp.forward(request, response);
 			}else if(sign.equals("basketInsert")) {
