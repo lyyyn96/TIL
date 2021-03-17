@@ -7,6 +7,6 @@
 <title>Insert title here</title>
 </head>
 <body>
-	회원 삭제 되었습니다.<br>
+	${id }님 회원 삭제 되었습니다.<br>
 </body>
 </html>

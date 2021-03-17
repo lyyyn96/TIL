@@ -7,6 +7,6 @@
 <title>Insert title here</title>
 </head>
 <body>
-	<a href='index.html'>계속 쇼핑하기</a>
+	<a href='index.jsp'>계속 쇼핑하기</a>
 </body>
 </html>

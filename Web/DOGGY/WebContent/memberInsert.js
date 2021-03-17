@@ -4,7 +4,7 @@ $(document).ready(function() {
 		var pw = $("#pw").val();
 		var name = $("#name").val();
 
-		alert(id + ":" + pw + ":" + name);
+		//alert(id + ":" + pw + ":" + name);
 
 		$.post("main",
 			{
@@ -13,7 +13,7 @@ $(document).ready(function() {
 				name: name
 			},
 			function(data, status) {
-				alert("Data: " + data + "\nStatus: " + status);
+				//alert("Data: " + data + "\nStatus: " + status);
 			});
 	});
 	

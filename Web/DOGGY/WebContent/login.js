@@ -6,14 +6,14 @@ $(document).ready(function() {
 
 		alert(id + ":" + pw +":"+name);
 
-		$.post("main",{
-					id: id,
-					pw: pw,
-					name: name
-				},
-				function(data, status) {
-					$("#msgDiv").html(data);
-				}
-		);
+		$.post("main",
+			{
+				id: id,
+				pw: pw,
+				name: name
+			},
+			function(data, status) {
+				//alert(data);
+			});
 	});
 });

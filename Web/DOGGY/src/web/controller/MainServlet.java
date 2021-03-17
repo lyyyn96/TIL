@@ -19,7 +19,7 @@ import org.json.simple.JSONObject;
 import org.json.simple.JSONValue;
 
 import web.model.MemberDAO;
-import web.util.MemberVO;
+import web.model.MemberVO;
 import web.util.MyException;
 
 @WebServlet("/main")
@@ -42,6 +42,16 @@ public class MainServlet extends HttpServlet {
 		try {
 			request.setCharacterEncoding("utf-8");
 			String sign = request.getParameter("sign");
+			
+			/*
+			response.setContentType("text/html;charset=utf-8");
+			PrintWriter out = response.getWriter();
+			JSONObject resJson = new JSONObject();
+			
+			BufferedReader br = request.getReader();
+			JSONObject reqJson = (JSONObject) JSONValue.parse(br);
+			String sign = (String) reqJson.get("sign");
+			*/
 			
 			if(sign==null) {
 				throw new MyException("요청을 구별할 수 없습니다.");
@@ -71,11 +81,12 @@ public class MainServlet extends HttpServlet {
 				String pw = request.getParameter("pw");
 				String name = request.getParameter("name");
 				
-				System.out.println(id+":"+pw+":"+name);
+				//System.out.println(id+":"+pw+":"+name);
 				MemberVO m = new MemberVO(id, pw, name);
 				mDao.memberInsert(m);
 				
 				RequestDispatcher disp = request.getRequestDispatcher("memberInsert_ok.jsp");
+				request.setAttribute("name", name);
 				disp.forward(request, response);
 			}else if(sign.equals("memberDelete")) {
 				String id = request.getParameter("id");
@@ -83,10 +94,9 @@ public class MainServlet extends HttpServlet {
 				
 				mDao.memberDelete(id, pw);
 				RequestDispatcher disp = request.getRequestDispatcher("memberDelete_ok.jsp");
+				request.setAttribute("id", id);
 				disp.forward(request, response);
 			}else if(sign.equals("basketInsert")) {
-				//장바구니에 상품 넣기 처리
-				//request로 부터 로그인을 했을 때만 session을 줌
 				HttpSession session = request.getSession(false);
 				if(session==null) {
 					RequestDispatcher disp = request.getRequestDispatcher("login.jsp");
@@ -97,20 +107,23 @@ public class MainServlet extends HttpServlet {
 						RequestDispatcher disp = request.getRequestDispatcher("login.jsp");
 						disp.forward(request, response);
 					}else {
-						//세션도 있고 name도 있는 로그인 정상 상태
-						//냉장고, TV, 세탁기가 모두 product면 안되므로
-						//basket의 이름, 주소의 값을 주어 ArrayList를 만듦
-						//String product = request.getParameter("product");
 						ArrayList<String> list = (ArrayList<String>)session.getAttribute("basket");
 						if(list==null) {
 							list = new ArrayList<String>();
-							session.setAttribute("basket", list); //최초 장바구니 세팅
+							session.setAttribute("basket", list);
 						}
 						String product = request.getParameter("product");
 						list.add(product);
 						RequestDispatcher disp = request.getRequestDispatcher("basketInsert_ok.jsp");
 						disp.forward(request, response);
 					}
+				}
+			}else if(sign.equals("logout")) {
+				HttpSession session = request.getSession(false);
+				if(session!=null) {
+					session.invalidate();
+					RequestDispatcher disp = request.getRequestDispatcher("index.jsp");
+					disp.forward(request, response);
 				}
 			}
 		}catch(MyException e) {
