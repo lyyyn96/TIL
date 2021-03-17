@@ -20,13 +20,12 @@ import web.util.MyException;
 @WebServlet("/main")
 public class MainServlet extends HttpServlet {
 	
-	DAO mdao;
+	MemberDAO mdao;
 	
 	@Override
 	public void init() throws ServletException {
 		try {
-			//mdao = new MemberDAO();
-			mdao=
+			mdao = new MemberDAO();
 		} catch (MyException e) {
 			System.out.println(e.getMessage());
 		}
