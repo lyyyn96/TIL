@@ -7,6 +7,7 @@
 <title>Insert title here</title>
 </head>
 <body>
-	${name }님 회원가입 완료<br> <button onclick="window.close()">닫기</button>
+	${name }님 회원가입 완료<br><br>
+	<button onclick="window.close()">닫기</button>
 </body>
 </html>

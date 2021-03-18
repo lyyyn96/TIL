@@ -10,6 +10,10 @@ public class MemberVO {
 		setName(name);
 	}
 
+	public MemberVO() {
+		super();
+	}
+
 	public String getId() {
 		return id;
 	}
@@ -45,6 +49,10 @@ public class MemberVO {
 			System.out.println("name은 null이 될 수 없습니다.");
 		}
 	}
-	
+
+	@Override
+	public String toString() {
+		return "MemberVO [id=" + id + ", pw=" + pw + ", name=" + name + "]";
+	}
 	
 }

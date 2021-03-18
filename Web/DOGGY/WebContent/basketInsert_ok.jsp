@@ -7,6 +7,7 @@
 <title>Insert title here</title>
 </head>
 <body>
-	<a href='index.jsp'>계속 쇼핑하기</a>
+	장바구니에 담겼습니다.<br><br>
+	<button onclick="window.close()">닫기</button>
 </body>
 </html>

@@ -151,16 +151,16 @@
 	</style>
 	
 	<!-- 웹 페이지 크기 및 위치 자동 고정하기 -->
-<script>
-window.onfocus=function(){
-}
-window.onload=function(){
- window.focus(); // 현재 window 즉 익스플러러를 윈도우 최상단에 위치
-window.moveTo(0,0); // 웹 페이지의 창 위치를 0,0 (왼쪽 최상단) 으로 고정
-window.resizeTo(1536,824); // 웹페이지의 크기를 가로 1280 , 세로 800 으로 고정(확장 및 축소)
-window.scrollTo(0,0); // 페이지 상단 광고를 바로 볼 수 있게 스크롤 위치를 조정
-}
-</script>
+	<script>
+	window.onfocus=function(){
+	}
+	window.onload=function(){
+	 window.focus(); // 현재 window 즉 익스플러러를 윈도우 최상단에 위치
+	window.moveTo(0,0); // 웹 페이지의 창 위치를 0,0 (왼쪽 최상단) 으로 고정
+	window.resizeTo(1536,824); // 웹페이지의 크기를 가로 1280 , 세로 800 으로 고정(확장 및 축소)
+	window.scrollTo(0,0); // 페이지 상단 광고를 바로 볼 수 있게 스크롤 위치를 조정
+	}
+	</script>
 </head>
 
 <body>
@@ -198,7 +198,12 @@ window.scrollTo(0,0); // 페이지 상단 광고를 바로 볼 수 있게 스크
             </a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="index.html#main?sign=logout">로그아웃</a>
+        	<form action="main" method="post">
+            <input type="hidden" name="sign" value="logout">
+            <input class="nav-link" href="index.html" type="submit" value="로그아웃" 
+            style="background-color:transparent;  border:0px transparent solid;">
+  
+            </form>
           </li>
           <li class="nav-item">
             <a class="nav-link" href="#" onclick="window.open('basketView.jsp', '_blank',
@@ -277,7 +282,7 @@ window.scrollTo(0,0); // 페이지 상단 광고를 바로 볼 수 있게 스크
                 <p class="card-text">본 제품은 신선한 양고기(생육)과 감자를 주 원료로 당사의 독자적인 노하우를 접목시킨 국내 유일의 생육 첨가 반건조 제품으로 조직이 부드러워 소화가 잘되고 기호성이 뛰어납니다.</p>
               </div>
               <div class="card-footer">
-                <input type="checkbox" name="product" value="제니스 어덜트"><!-- <small class="text-muted">&#9733; &#9733; &#9733; &#9733; &#9734;</small> -->
+                <input type="checkbox" name="product" value="제니스 어덜트 1.2KG"><!-- <small class="text-muted">&#9733; &#9733; &#9733; &#9733; &#9734;</small> -->
               </div>
             </div>
           </div>
@@ -293,7 +298,7 @@ window.scrollTo(0,0); // 페이지 상단 광고를 바로 볼 수 있게 스크
                 <p class="card-text">본 제품은 신선한 국내산 닭가슴살과 감자를 주 원료로 당사의 독자적인 노하우를 접목시킨 국내 유일의 생육 첨가 반건조 제품으로 조직이 부드러워 소화가 잘되고 기호성이 뛰어납니다.</p>
               </div>
               <div class="card-footer">
-                <input type="checkbox" name="product" value="제니스 퍼피"><!-- <small class="text-muted">&#9733; &#9733; &#9733; &#9733; &#9734;</small> -->
+                <input type="checkbox" name="product" value="제니스 퍼피 1.2KG"><!-- <small class="text-muted">&#9733; &#9733; &#9733; &#9733; &#9734;</small> -->
               </div>
             </div>
           </div>
@@ -309,7 +314,7 @@ window.scrollTo(0,0); // 페이지 상단 광고를 바로 볼 수 있게 스크
                 <p class="card-text">본 제품은 신선한 양고기(생육)과 감자를 주 원료로 당사의 독자적인 노하우를 접목시킨 국내 유일의 생육 첨가 반건조 제품으로 조직이 부드러워 소화가 잘되고 기호성이 뛰어납니다.</p>
               </div>
               <div class="card-footer">
-                <input type="checkbox" name="product" value="제니스 시니어"><!-- <small class="text-muted">&#9733; &#9733; &#9733; &#9733; &#9734;</small> -->
+                <input type="checkbox" name="product" value="제니스 시니어 1.2KG"><!-- <small class="text-muted">&#9733; &#9733; &#9733; &#9733; &#9734;</small> -->
               </div>
             </div>
           </div>
@@ -327,7 +332,7 @@ window.scrollTo(0,0); // 페이지 상단 광고를 바로 볼 수 있게 스크
 				Fresh meat 30%이상 소화흡수율 향상에 도움을 줍니다.</p>
               </div>
               <div class="card-footer">
-                <input type="checkbox" name="product" value="오리지-7 소고기"><!-- <small class="text-muted">&#9733; &#9733; &#9733; &#9733; &#9734;</small> -->
+                <input type="checkbox" name="product" value="오리지-7 소고기 2KG"><!-- <small class="text-muted">&#9733; &#9733; &#9733; &#9733; &#9734;</small> -->
               </div>
             </div>
           </div>
@@ -345,7 +350,7 @@ window.scrollTo(0,0); // 페이지 상단 광고를 바로 볼 수 있게 스크
 				Fresh meat 30%이상 소화흡수율 향상에 도움을 줍니다.</p>
               </div>
               <div class="card-footer">
-                <input type="checkbox" name="product" value="오리지-7 양고기"><!-- <small class="text-muted">&#9733; &#9733; &#9733; &#9733; &#9734;</small> -->
+                <input type="checkbox" name="product" value="오리지-7 양고기 2KG"><!-- <small class="text-muted">&#9733; &#9733; &#9733; &#9733; &#9734;</small> -->
               </div>
             </div>
           </div>
@@ -363,11 +368,13 @@ window.scrollTo(0,0); // 페이지 상단 광고를 바로 볼 수 있게 스크
 				Fresh meat 30%이상 소화흡수율 향상에 도움을 줍니다.</p>
               </div>
               <div class="card-footer">
-                <input type="checkbox" name="product" value="오리지-7 연어"><!-- <small class="text-muted">&#9733; &#9733; &#9733; &#9733; &#9734;</small> -->
+                <input type="checkbox" name="product" value="오리지-7 연어 2KG"><!-- <small class="text-muted">&#9733; &#9733; &#9733; &#9733; &#9734;</small> -->
               </div>
             </div>
           </div>
-			<input type="submit" id="basketInsertBtn" value="장바구니 넣기"><input id="resetBtn" type="reset" value="reset"><br>
+			<input type="submit" id="basketInsertBtn" href="#" onclick="window.open('basketInsert_ok.jsp', '_blank',
+            		'toolbar=yes,scrollbars=yes,resizable=yes,top=50,left=500,width=400,height=400');" value="장바구니 넣기">
+			<input id="resetBtn" type="reset" value="reset"><br>
 		</form>
         </div>
         <!-- /.row -->

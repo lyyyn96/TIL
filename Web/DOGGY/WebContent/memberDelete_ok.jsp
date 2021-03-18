@@ -7,6 +7,7 @@
 <title>Insert title here</title>
 </head>
 <body>
-	${id }님 회원 삭제 되었습니다.<br>
+	${id }님 회원 삭제 되었습니다.<br><br>
+	<button onclick="window.close()">닫기</button>
 </body>
 </html>

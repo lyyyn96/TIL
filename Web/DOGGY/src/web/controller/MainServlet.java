@@ -114,7 +114,8 @@ public class MainServlet extends HttpServlet {
 						}
 						String product = request.getParameter("product");
 						list.add(product);
-						RequestDispatcher disp = request.getRequestDispatcher("basketInsert_ok.jsp");
+						RequestDispatcher disp = request.getRequestDispatcher("login_ok.jsp");
+						request.setAttribute("list", list);
 						disp.forward(request, response);
 					}
 				}
@@ -124,6 +125,7 @@ public class MainServlet extends HttpServlet {
 					session.invalidate();
 					RequestDispatcher disp = request.getRequestDispatcher("index.jsp");
 					disp.forward(request, response);
+					//System.out.println("로그아웃 완료");
 				}
 			}
 		}catch(MyException e) {

@@ -13,5 +13,6 @@
 			out.write(product+"<br>");
 		}
 	%>
+	<br> <button onclick="window.close()">닫기</button>
 </body>
 </html>
