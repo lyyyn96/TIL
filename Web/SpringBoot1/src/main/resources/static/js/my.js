@@ -1,0 +1,12 @@
+$(document).ready(function(){
+	$("#loginBtn").click(function(){
+		//alert();
+		$.post("home.chr"
+				,{}
+				,function(data,status){
+					console.log(data);
+					$("#msgDiv").html(data);
+				}
+				);
+	});
+});
