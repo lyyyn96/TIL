@@ -1,11 +1,26 @@
 $(document).ready(function(){
 	
 	$("#orderBtn").click(function(){
-			let confirm_data=confirm("다음과 같이 주문하시겠습니까?\n"+items);		
-			if(confirm_data){
-				alert("주문완료");
-			}
-			window.close();
+			
+		let confirm_data=confirm("다음과 같이 주문하시겠습니까?\n"+items);		
+		if(confirm_data){
+			const basket = $.cookie("basket");
+	
+			$.post("../order.chr",
+					basket,
+					function(data, status){	
+					console.log(data);
+					const obj=JSON.parse(data);
+					if(obj.order_group_no){	
+					  	alert("주문완료:[주문번호]"+obj.order_group_no);	
+					  	$.removeCookie("basket", { path: '/' });// 장바구니 쿠키 삭제	
+					}else{
+					  	alert(obj.msg);
+					}
+					  window.close();			   
+					}
+				);//end post() 			
+			}		
 		});
 	
 		$("#anotherBtn").click(function(){		
@@ -43,7 +58,7 @@ $(document).ready(function(){
 					product:[{name:event.target.name, quantity:1}] //첫 품목 추가
 				};
 			}
-			basket=JSON.stringify(obj); //자바스크립트 객체를 json 형식으로 바꿔서(쿠키에 들어가는 것은 txt여야하기 때문에)
+			basket=JSON.stringify(obj); //자바스크립트 객체를 json 형식으로 바꿔서(쿠키에 들어가는 것은 String이어야 하기 때문에)
 			$.cookie("basket", basket, { path: '/' });// 장바구니 쿠키 저장
 			window.open('html/orderForm.html', '_blank', 'toolbar=yes,scrollbars=yes,resizable=yes,top=50,left=500,width=600,height=350');
 		});
@@ -79,7 +94,7 @@ $(document).ready(function(){
 				  	//alert(data);
 					  var obj=JSON.parse(data);			  
 					  	if(obj.name){
-					  		data = obj.name+"  <input type='button' value='logout' id='logoutBtn' class='btn btn-primary'>";	
+					  		data = obj.name+" <input type='button' value='logout' id='logoutBtn' class='btn btn-primary'>";	
 					  		$.cookie("logined", data);	    
 							$("#msgDiv").html(data);		
 						}else{
