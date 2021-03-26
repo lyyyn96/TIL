@@ -6,6 +6,15 @@
 
 package kitchenscreen;
 
+import java.io.FileReader;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
+import java.net.Socket;
+import java.util.Properties;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
 /**
  *
  * @author lyyyn
@@ -17,6 +26,7 @@ public class UI extends javax.swing.JFrame {
      */
     public UI() {
         initComponents();
+        serverConnect();
     }
 
     /**
@@ -35,6 +45,8 @@ public class UI extends javax.swing.JFrame {
         jButton1 = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+
+        jTabbedPane1.setToolTipText("");
 
         jTable1.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -66,7 +78,7 @@ public class UI extends javax.swing.JFrame {
                 .addContainerGap(13, Short.MAX_VALUE))
         );
 
-        jTabbedPane1.addTab("tab1", jPanel1);
+        jTabbedPane1.addTab("주문/출고 현황", jPanel1);
 
         jButton1.setText("새로고침");
         jButton1.addActionListener(new java.awt.event.ActionListener() {
@@ -147,4 +159,28 @@ public class UI extends javax.swing.JFrame {
     private javax.swing.JTabbedPane jTabbedPane1;
     private javax.swing.JTable jTable1;
     // End of variables declaration//GEN-END:variables
+
+    private void serverConnect() {
+        try {
+            Properties prop = new Properties();
+            prop.load(new FileReader("config.properties"));
+            String ip = (String) prop.get("server.ip");
+            String port = (String) prop.get("server.port");
+            Socket s = new Socket(ip, Integer.parseInt(port));
+            System.out.println("연결 완료"+s);
+            ObjectInputStream in = new ObjectInputStream(s.getInputStream());
+            ObjectOutputStream out = new ObjectOutputStream(s.getOutputStream());
+            new Thread(()->{
+                while(true){
+                    try { //while문 안에서 try-catch
+                        in.readObject(); //주문 통보 받는 일
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                }
+            }).start();
+        } catch (IOException ex) {
+            Logger.getLogger(UI.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
 }

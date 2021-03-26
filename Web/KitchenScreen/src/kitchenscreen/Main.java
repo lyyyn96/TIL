@@ -6,6 +6,8 @@
 
 package kitchenscreen;
 
+import javax.swing.JFrame;
+
 /**
  *
  * @author lyyyn
@@ -16,7 +18,10 @@ public class Main {
      * @param args the command line arguments
      */
     public static void main(String[] args) {
-        // TODO code application logic here
+        JFrame.setDefaultLookAndFeelDecorated(true);
+        UI ui = new UI();
+        ui.setBounds(300, 200, 700, 450);
+        ui.setVisible(true);
     }
     
 }
