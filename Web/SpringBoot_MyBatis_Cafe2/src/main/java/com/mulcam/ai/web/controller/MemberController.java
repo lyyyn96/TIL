@@ -30,7 +30,6 @@ public class MemberController {
 			HttpSession session=request.getSession(false);
 			session.invalidate();
 			return "";
-		
 	}
 	
 	@RequestMapping(value = "login.chr", 
