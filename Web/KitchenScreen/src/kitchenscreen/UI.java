@@ -17,6 +17,17 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.table.DefaultTableModel;
 import com.mulcam.ai.web.vo.OrderVO;
+import java.io.InputStream;
+import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
+import java.net.URL;
+import javax.swing.DefaultCellEditor;
+import javax.swing.ImageIcon;
+import javax.swing.JComboBox;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.ListSelectionModel;
+import javax.swing.table.TableColumn;
 
 /**
  *
@@ -25,6 +36,10 @@ import com.mulcam.ai.web.vo.OrderVO;
 public class UI extends javax.swing.JFrame {
     final String columnNames[];
     ObjectOutputStream out;
+    JComboBox comboBox;
+    JFrame qrFrame;
+    JLabel qr;
+    Object order_group_no;
 
     /**
      * Creates new form UI
@@ -33,6 +48,35 @@ public class UI extends javax.swing.JFrame {
         initComponents();
         serverConnect();
         columnNames=new String[]{"order_group_no","product_name","quantity","ordermethod","orderdate","상황"};
+    
+        qrFrame=new JFrame();
+        qr=new JLabel();
+        qrFrame.getContentPane().add(qr);
+        qrFrame.setLocation(300, 400);
+        
+        tableEvent();
+        /*
+        qrFrame.addWindowListener(new WindowAdapter(){
+            @Override
+            public void windowClosing(WindowEvent e) {
+                qrFrame.setVisible(false);
+            }                                
+        });*/
+    }
+    
+    private void tableEvent(){
+        jTable1.setSelectionMode(ListSelectionModel.SINGLE_SELECTION); //하나씩만 선택하게
+        ListSelectionModel data = jTable1.getSelectionModel();
+        data.addListSelectionListener((e)->{
+            if(e.getValueIsAdjusting()){
+                try{
+                    order_group_no = jTable1.getModel().getValueAt(jTable1.getSelectedRow(), 0);
+                    System.out.println(order_group_no);
+                }catch(Exception ex){
+            
+                }
+            }
+        });
     }
 
     /**
@@ -202,6 +246,14 @@ public class UI extends javax.swing.JFrame {
                         }
                        // "order_group_no","prodname","quantity","ordermethod","orderdate","memberid"
                         jTable1.setModel(new DefaultTableModel(data, columnNames));
+                        comboBox = new JComboBox(); 
+                        comboBox.addItem("준비"); 
+                        comboBox.addItem("완료"); 
+                        TableColumn col=jTable1.getColumn("상황");
+                        col.setCellEditor(new DefaultCellEditor(comboBox));
+                        jTable1.repaint();
+                        comboBoxEvent();
+
                     }catch(Exception e){
                         e.printStackTrace();
                     }
@@ -211,5 +263,42 @@ public class UI extends javax.swing.JFrame {
         } catch (IOException ex) {
             Logger.getLogger(UI.class.getName()).log(Level.SEVERE, null, ex);
         }
+    }
+
+    private void comboBoxEvent() {
+         System.out.println("comboBoxEvent() 호출됨");
+         comboBox.addActionListener((e)->{
+             String status = comboBox.getSelectedItem().toString();
+             if(status.equals("완료")){
+                System.out.println("QR생성");
+                 try {
+                     URL url = new URL("http://api.qrserver.com/v1/create-qr-code/?size=150x150&data=http://210.90.237.43:8090/output.chr?order_group_no="+order_group_no);
+                     HttpURLConnection con = (HttpURLConnection) url.openConnection();
+                     con.setRequestMethod("GET");
+                     
+                     // QR 받기
+                     // 응답 내용(BODY) 구하기
+                     // JDK 1.8부터 try()가 생김. 알아서 자원을 종료
+                    try (InputStream in = con.getInputStream();) {
+                            byte[] buf = new byte[1024 * 8];
+                            int length = 0;
+                            while ((length = in.read(buf)) != -1) {
+
+                            }                            
+                            
+                            qr.setIcon(new ImageIcon(buf));
+                            qrFrame.pack(); //component와 frame 사이즈를 맞추기
+                            qrFrame.setVisible(true);
+                                      
+                    }
+        
+                    // 접속 해제
+                    con.disconnect();
+
+                 } catch (Exception ex) {
+                     Logger.getLogger(UI.class.getName()).log(Level.SEVERE, null, ex);
+                 }
+             }
+        });
     }
 }
