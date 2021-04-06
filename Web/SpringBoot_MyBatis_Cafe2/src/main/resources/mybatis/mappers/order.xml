@@ -36,4 +36,12 @@
 		]]>
 	</select>
 	
+	<update id="update" parameterType="long">
+		<![CDATA[
+			update orders
+			set output=1
+			where order_group_no=#{order_group_no}
+		]]>
+	</update>
+	
 </mapper>

@@ -25,7 +25,7 @@ public class MemberController {
 			produces = "application/text; charset=utf8")			
 	@ResponseBody
 	public String logout(HttpServletRequest request,
-			HttpServletResponse response){
+			HttpServletResponse response){ //parameter 개수에 제한이 없음
 		
 			HttpSession session=request.getSession(false);
 			session.invalidate();

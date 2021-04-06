@@ -36,4 +36,8 @@ public class OrderDAOImpl {
 		return sqlSession.selectList("mapper.order.select");
 	}
 
+	public void update(long order_group_no) {
+		sqlSession.update("mapper.order.update", order_group_no);
+	}
+
 }

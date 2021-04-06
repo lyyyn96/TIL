@@ -56,12 +56,14 @@ public class OrderService {
 		return order_group_no;
 	}
 	
+	//모든 미출고 주문 조회
 	public List<OrderVO> ordersSelect(){
 		List<OrderVO> list=orderDAO.ordersSelect();
 		
 		return list;
 	}
 	
+	//주방 스크린으로 주문 상황 전송
 	public void pushOrders() {
 		System.out.println("pushOrders");
 		List<OrderVO> all_list=ordersSelect();	
@@ -99,6 +101,11 @@ public class OrderService {
 				e.printStackTrace();
 			}
 		}
+	}
+
+	public void update(long order_group_no) {
+		orderDAO.update(order_group_no);
+		pushOrders();
 	}
 	
 }//end OrderService
