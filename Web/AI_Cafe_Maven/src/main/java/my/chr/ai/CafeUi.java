@@ -5,13 +5,22 @@
  */
 package my.chr.ai;
 
+import java.awt.Dimension;
 import java.awt.Label;
+import java.awt.Point;
 import java.util.Enumeration;
 import java.util.Hashtable;
 import java.util.Vector;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javafx.application.Platform;
+import javafx.embed.swing.JFXPanel;
+import javafx.scene.Group;
+import javafx.scene.Scene;
+import javafx.scene.web.WebEngine;
+import javafx.scene.web.WebView;
 import javax.swing.ImageIcon;
+import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
@@ -19,23 +28,55 @@ import javax.swing.SwingWorker;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableModel;
 import my.chr.ai.engine.STT;
+import my.chr.ai.engine.TTS;
 import my.chr.ai.engine.VoiceOrders;
 
 /**
  *
  * @author javan_000
  */
-public class CafeUi extends javax.swing.JFrame {
-
+public class CafeUI extends javax.swing.JFrame {
+    JFXPanel fxPanel;
     /**
      * Creates new form CafeUi
      */
-    public CafeUi() {
+    public CafeUI() {
         initComponents();
         setUi();
-        //startAI();
+        startAI();
+        initFX();
     }
+    
+    private void initFX() {
+	JFrame frame = new JFrame("FX");
+	//frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+	frame.getContentPane().setLayout(null);
+	final JButton jButton = new JButton("취소");
+	fxPanel = new JFXPanel();
+	frame.add(jButton);
+	frame.add(fxPanel);
+	//frame.setVisible(true);
+	jButton.setSize(new Dimension(200, 27));
+	fxPanel.setSize(new Dimension(300, 300));
+	fxPanel.setLocation(new Point(0, 27));
+	frame.getContentPane().setPreferredSize(new Dimension(300, 327));
+	frame.pack();
+	frame.setResizable(false);
+    }
+    
+    private void initAndLoadWebView(final JFXPanel fxPanel) {
+	Group group = new Group();
+	Scene scene = new Scene(group);
+	fxPanel.setScene(scene);
+	WebView webView = new WebView(); //웹 브라우저 객체 생성
+	group.getChildren().add(webView); //패널 위에 웹 브라우저가 붙음
+	webView.setMinSize(300, 300);
+	webView.setMaxSize(300, 300);
+	WebEngine webEngine = webView.getEngine(); //웹 브라우저의 웹 엔진을 얻음
 
+	webEngine.load("file:///D:/zip/AI_Cafe_Maven/index.html");
+    }
+    
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -575,7 +616,7 @@ public class CafeUi extends javax.swing.JFrame {
             .addComponent(jTabbedPane1)
         );
 
-        jPanel17.setBorder(javax.swing.BorderFactory.createLineBorder(null));
+        jPanel17.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
         jPanel17.setLayout(null);
 
         jLabel6.setFont(new java.awt.Font("굴림", 1, 14)); // NOI18N
@@ -774,19 +815,28 @@ Hashtable<String,Integer> basket=new Hashtable();
     // MyWorker라는 SwingWorker(Swing의 Thread) 작성
     // 작업 Thread와 충돌을 방지하기 위함
     class MyWorker extends SwingWorker{
+        //핵심 코드
         @Override
         protected Object doInBackground(){ //doInBackground는 run와 동일
-            String stt = STT.process();
-            System.out.println(stt);
-            VoiceOrders.process(stt);
+            String stt = STT.process(); //사용자의 음성 인식해서 text로 바꿈
+            //System.out.println(stt);
+            String chatbotMsg = VoiceOrders.process(stt); //챗봇 호출
+            TTS.process(chatbotMsg); //챗봇 메세지를 음성 합성-> tts.mp3 파일 생김-> 파일을 플레이 해야 함
             
             return null;
         }
         @Override
         protected void done() {
             jLabel8.setIcon(new ImageIcon("img\\mic.png"));
-        }  
+            Platform.runLater(new Runnable() {
+                public void run() {
+                   initAndLoadWebView(fxPanel);
+                }
+            });
+        }
     }
+    
+    
     
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton1;
@@ -891,9 +941,5 @@ Hashtable<String,Integer> basket=new Hashtable();
     private void startAI() {
         VoiceOrders.process("영업해요?");
     }
-
-
-
-
 
 }

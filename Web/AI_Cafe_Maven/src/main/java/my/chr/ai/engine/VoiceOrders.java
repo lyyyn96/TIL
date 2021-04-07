@@ -30,7 +30,7 @@ import org.json.JSONObject;
  */
 public class VoiceOrders {
 
-     public static void process(String voiceMessage) {
+     public static String process(String voiceMessage) {
 
         String chatbotMessage = "";
 
@@ -68,6 +68,7 @@ public class VoiceOrders {
                         new InputStreamReader(
                                 con.getInputStream(),"UTF-8"));
                 String decodedString;
+                //return 되어온 챗봇 메세지 읽기
                 while ((decodedString = in.readLine()) != null) {
                     chatbotMessage = decodedString;
                 }
@@ -77,11 +78,26 @@ public class VoiceOrders {
             } else {  // Error occurred
                 chatbotMessage = con.getResponseMessage();
             }
-            System.out.println("하이");
-
-            System.out.println(chatbotMessage);
+            //System.out.println("하이");
+            
+            System.out.println(chatbotMessage); //JSON 형식
+            //JSON parsing
+            JSONObject o = new JSONObject(chatbotMessage); //String을 JSONObject 형식으로 바꿈
+            JSONArray bubbles = o.getJSONArray("bubbles");
+            JSONObject bubbles0 = bubbles.getJSONObject(0);
+            JSONObject data = bubbles0.getJSONObject("data");
+            String description = (String) data.get("description");
+            JSONArray slot = o.getJSONArray("slot");
+            JSONObject slot0 = slot.getJSONObject(0);
+            JSONObject zero = slot0.getJSONObject("0");
+            System.out.println("챗봇---->"+description);
+            System.out.println("챗봇---->"+zero);
+            
+            return description;
         } catch (Exception e) {
             System.out.println(e);
+            
+            return "죄송합니다. 다시 말씀해주세요.";
         }
 
         //return chatbotMessage;

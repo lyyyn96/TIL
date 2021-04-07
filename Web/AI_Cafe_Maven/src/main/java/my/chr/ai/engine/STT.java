@@ -20,6 +20,7 @@ import javax.sound.sampled.AudioInputStream;
 import javax.sound.sampled.AudioSystem;
 import javax.sound.sampled.DataLine;
 import javax.sound.sampled.TargetDataLine;
+import org.json.JSONObject;
 
 /**
  *
@@ -99,10 +100,17 @@ public class STT {
 	                    response.append(inputLine);
 	                }
 	                br.close();
-	                //System.out.println(response.toString());
-                        return response.toString();
+	                System.out.println(response.toString()); //JSON 형식
+                        String msg = response.toString();
+                        JSONObject o = new JSONObject(msg);
+                        String stt = o.getString("text");
+                        System.out.println("사용자: "+stt); //사용자: 커피주문
+                        
+                        return stt;
+                        //return response.toString();
 	            } else {
 	                System.out.println("error !!!");
+                        
                         return null;
 	            }
 	        } catch (Exception e) {
