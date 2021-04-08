@@ -87,11 +87,7 @@ public class VoiceOrders {
             JSONObject bubbles0 = bubbles.getJSONObject(0);
             JSONObject data = bubbles0.getJSONObject("data");
             String description = (String) data.get("description");
-            JSONArray slot = o.getJSONArray("slot");
-            JSONObject slot0 = slot.getJSONObject(0);
-            JSONObject zero = slot0.getJSONObject("0");
             System.out.println("챗봇---->"+description);
-            System.out.println("챗봇---->"+zero);
             
             return description;
         } catch (Exception e) {
